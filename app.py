@@ -141,6 +141,6 @@ if search:
 
 # Footer
 st.markdown("---")
-st.caption("Built with Python + Streamlit")
-st.caption("Datasourced from local Bangalore area data, may not be fully accurate.")
-st.caption("Built by Ruhaab")
+st.caption("🖇️ Built with Python + Streamlit")
+st.caption("📊 Data sourced from local Bangalore area data, & may not be fully accurate.")
+st.caption("✨ Made by Ruhaab")
