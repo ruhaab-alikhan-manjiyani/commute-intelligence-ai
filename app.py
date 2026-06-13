@@ -160,7 +160,7 @@ if search:
         border:1px solid rgba(255,255,255,0.1);
         margin-bottom:15px;
     ">
-        <h3>📍 {row['Area']}</h3>
+        <h3> {row['Area']}</h3>
         <p>💰 Rent: ₹{row['AvgRent']:,}</p>
         <p>🚗 Commute: {commute_time}</p>
         <p>🚇 Metro: {row['Metro']}</p>
@@ -182,7 +182,7 @@ if search:
 
 st.markdown("---")
 
-st.caption("🏠 CommuteWise Bengaluru")
+st.caption("🏠 Commute Wise Bengaluru")
 st.caption("🖇️ Built with Python + Streamlit")
 st.caption(
     "📊 Area and rent information is indicative and may vary."
