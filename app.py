@@ -10,6 +10,12 @@ st.set_page_config(
     page_icon="🏠",
     layout="wide"
 )
+st.markdown("""
+### Live smarter. Commute shorter.
+
+Discover Bangalore neighborhoods based on
+your office location and monthly budget.
+""")
 
 # -----------------------------------
 # LOAD DATA
@@ -58,14 +64,18 @@ office = st.sidebar.text_input(
     placeholder="Example: Whitefield"
 )
 
-budget = st.sidebar.slider(
+budget = st.sidebar.number_input(
     "Monthly Rent Budget (₹)",
-    10000,
-    50000,
-    25000
+    min_value=10000,
+    max_value=100000,
+    value=25000,
+    step=1000
 )
 
-search = st.sidebar.button("Get Recommendations")
+search = st.sidebar.button(
+    "🚀 Discover Areas",
+    use_container_width=True
+)
 
 # -----------------------------------
 # SEARCH LOGIC
@@ -141,19 +151,24 @@ if search:
             with cols[idx]:
 
                 st.markdown(
-                    f"""
-                    ### 📍 {row['Area']}
-
-                    💰 **Average Rent:** ₹{row['AvgRent']:,}
-
-                    🚗 **Commute to {office.title()}:**
-                    {commute_time}
-
-                    🚇 **Metro Access:** {row['Metro']}
-
-                    🏙️ **Best For:** {row['BestFor']}
-                    """
-                )
+    f"""
+    <div style="
+        background: rgba(255,255,255,0.05);
+        padding:20px;
+        border-radius:20px;
+        backdrop-filter: blur(12px);
+        border:1px solid rgba(255,255,255,0.1);
+        margin-bottom:15px;
+    ">
+        <h3>📍 {row['Area']}</h3>
+        <p>💰 Rent: ₹{row['AvgRent']:,}</p>
+        <p>🚗 Commute: {commute_time}</p>
+        <p>🚇 Metro: {row['Metro']}</p>
+        <p>🏙️ {row['BestFor']}</p>
+    </div>
+    """,
+    unsafe_allow_html=True
+)
 
     else:
 
