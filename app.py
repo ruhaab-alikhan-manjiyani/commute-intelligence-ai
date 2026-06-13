@@ -1,23 +1,56 @@
 import streamlit as st
 import pandas as pd
 
-# Page settings
+# -----------------------------------
+# PAGE CONFIG
+# -----------------------------------
+
 st.set_page_config(
-    page_title="Commute Intelligence AI",
-    page_icon="🚦",
+    page_title="Commute Wise Bengaluru",
+    page_icon="🏠",
     layout="wide"
 )
 
-# Load CSV
+# -----------------------------------
+# LOAD DATA
+# -----------------------------------
+
 df = pd.read_csv("areas.csv")
 
-# Title
-st.title("🚦 Commute Intelligence AI")
+# -----------------------------------
+# COMMUTE DATA
+# -----------------------------------
+
+commute_data = {
+    "whitefield": {
+        "Brookefield": "15 mins",
+        "Hoodi": "12 mins",
+        "Kundalahalli": "18 mins",
+        "Marathahalli": "20 mins"
+    },
+    "electronic city": {
+        "Electronic City": "10 mins",
+        "HSR Layout": "25 mins"
+    }
+}
+
+# -----------------------------------
+# HEADER
+# -----------------------------------
+
+st.title("🏠 CommuteWise Bengaluru")
+
 st.markdown(
-    "Smart Bangalore area recommendations based on budget, commute, and lifestyle."
+    """
+    Find the best Bangalore neighborhoods based on
+    your rent budget and office location.
+    """
 )
 
-# Sidebar
+# -----------------------------------
+# SIDEBAR
+# -----------------------------------
+
 st.sidebar.header("User Preferences")
 
 office = st.sidebar.text_input(
@@ -26,16 +59,18 @@ office = st.sidebar.text_input(
 )
 
 budget = st.sidebar.slider(
-    "Monthly Rent Budget",
+    "Monthly Rent Budget (₹)",
     10000,
     50000,
     25000
 )
 
-# Button
-search = st.sidebar.button("Find Best Areas")
+search = st.sidebar.button("Get Recommendations")
 
-# Main Logic
+# -----------------------------------
+# SEARCH LOGIC
+# -----------------------------------
+
 if search:
 
     recommendations = df.copy()
@@ -45,32 +80,8 @@ if search:
         recommendations["AvgRent"] <= budget
     ]
 
-    # Score system
-    recommendations["Score"] = 0
+    # Office-specific recommendations
 
-    # Metro scoring
-    recommendations.loc[
-        recommendations["Metro"] == "Yes",
-        "Score"
-    ] += 3
-
-    # Traffic scoring
-    recommendations.loc[
-        recommendations["Traffic"] == "High",
-        "Score"
-    ] -= 2
-
-    recommendations.loc[
-        recommendations["Traffic"] == "Medium",
-        "Score"
-    ] += 1
-
-    recommendations.loc[
-        recommendations["Traffic"] == "Low",
-        "Score"
-    ] += 3
-
-    # Office matching
     if office.lower() == "whitefield":
 
         preferred_areas = [
@@ -80,10 +91,9 @@ if search:
             "Marathahalli"
         ]
 
-        recommendations.loc[
-            recommendations["Area"].isin(preferred_areas),
-            "Score"
-        ] += 5
+        recommendations = recommendations[
+            recommendations["Area"].isin(preferred_areas)
+        ]
 
     elif office.lower() == "electronic city":
 
@@ -92,55 +102,74 @@ if search:
             "HSR Layout"
         ]
 
-        recommendations.loc[
-            recommendations["Area"].isin(preferred_areas),
-            "Score"
-        ] += 5
+        recommendations = recommendations[
+            recommendations["Area"].isin(preferred_areas)
+        ]
 
-    # Sort results
+    # Prioritize metro-connected areas
+
     recommendations = recommendations.sort_values(
-        by="Score",
+        by="Metro",
         ascending=False
     )
 
     top_areas = recommendations.head(3)
 
-    # Results
-    st.subheader("🏆 Top Recommendations")
+    # -----------------------------------
+    # RESULTS
+    # -----------------------------------
+
+    st.subheader("🏆 Recommended Areas")
 
     if not top_areas.empty:
 
-        col1, col2, col3 = st.columns(3)
-
-        columns = [col1, col2, col3]
+        cols = st.columns(3)
 
         for idx, (_, row) in enumerate(top_areas.iterrows()):
 
-            with columns[idx]:
+            commute_time = "Approx. 20-30 mins"
 
-                st.container()
+            if office.lower() in commute_data:
+
+                commute_time = commute_data[
+                    office.lower()
+                ].get(
+                    row["Area"],
+                    "Approx. 20-30 mins"
+                )
+
+            with cols[idx]:
 
                 st.markdown(
                     f"""
                     ### 📍 {row['Area']}
 
-                    💰 **Average Rent:** ₹{row['AvgRent']}
+                    💰 **Average Rent:** ₹{row['AvgRent']:,}
+
+                    🚗 **Commute to {office.title()}:**
+                    {commute_time}
 
                     🚇 **Metro Access:** {row['Metro']}
 
-                    🚦 **Traffic Level:** {row['Traffic']}
-
                     🏙️ **Best For:** {row['BestFor']}
-
-                    ⭐ **Recommendation Score:** {row['Score']}
                     """
                 )
 
     else:
-        st.warning("No suitable recommendations found.")
 
-# Footer
+        st.warning(
+            "No suitable areas found within your budget."
+        )
+
+# -----------------------------------
+# FOOTER
+# -----------------------------------
+
 st.markdown("---")
+
+st.caption("🏠 CommuteWise Bengaluru")
 st.caption("🖇️ Built with Python + Streamlit")
-st.caption("📊 Data sourced from local Bangalore area data, & may not be fully accurate.")
+st.caption(
+    "📊 Area and rent information is indicative and may vary."
+)
 st.caption("✨ Made by Ruhaab")

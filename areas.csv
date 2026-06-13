@@ -1,11 +1,21 @@
-Area,AvgRent,Metro,Traffic,BestFor
-Brookefield,22000,Yes,Medium,Tech Workers
-Hoodi,18000,Yes,Medium,Affordable Living
-Kundalahalli,20000,Yes,Medium,IT Employees
-Indiranagar,35000,Yes,High,Luxury Lifestyle
-HSR Layout,30000,No,Medium,Startups
-Marathahalli,24000,No,High,Office Access
-Bellandur,26000,No,High,Tech Parks
-Electronic City,17000,Yes,Low,Budget Friendly
-Koramangala,32000,No,Medium,Nightlife
-Whitefield,28000,Yes,High,IT Hub
+Area,AvgRent,Metro,BestFor
+Brookefield,22000,Yes,Tech Workers
+Hoodi,18000,Yes,Affordable Living
+Kundalahalli,20000,Yes,IT Employees
+Whitefield,28000,Yes,IT Hub Professionals
+Marathahalli,24000,No,Office Commuters
+Bellandur,26000,No,Tech Park Employees
+HSR Layout,30000,No,Startup Professionals
+Koramangala,32000,No,Nightlife & Cafes
+Indiranagar,35000,Yes,Premium Lifestyle
+Electronic City,17000,Yes,Budget-Friendly Living
+Sarjapur Road,25000,No,Growing Professionals
+BTM Layout,22000,No,Students & Young Professionals
+Hebbal,27000,No,Airport Commuters
+Yelahanka,20000,No,Families
+Mahadevapura,23000,Yes,IT Employees
+CV Raman Nagar,21000,No,Working Professionals
+Domlur,29000,No,Central Connectivity
+Jayanagar,26000,No,Families & Professionals
+JP Nagar,23000,No,Affordable Family Living
+KR Puram,19000,Yes,Metro Commuters
